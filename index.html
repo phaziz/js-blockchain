@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Simple Javascript Blockchain (not distributed, that's your turn ;-)</title>
+</head>
+<body>
+
+    <h1>Open the Javascript console...</h1>
+
+<script>
+
+    let blockchainEntries = [];
+    let order = 0;
+
+    let text2BinaryUtility = (string) => 
+        {
+            return string.split('').map(function (char) {
+                return char.charCodeAt(0).toString(2);
+            }).join(' ');
+        }
+
+    let binary2TextUtility = (string) => 
+        {
+            return string.split(' ').map(function (binary) {
+                return String.fromCharCode(parseInt(binary, 2));
+            }).join('');
+        }
+
+    let addBsNode = (entry) =>
+        {
+            if(entry !== ''){
+                bsNode = [];
+
+                bsNode[0] = order;
+                bsNode[1] = entry;
+                bsNode[2] = text2BinaryUtility(entry);
+                
+                blockchainEntries[order] = bsNode;
+
+                console.log(blockchainEntries);
+                checkNodeIntegrity(order, blockchainEntries[order]);
+
+                order++;
+            }
+        }
+
+    let checkNodeIntegrity = (item, node) => 
+        {
+            if(node !== undefined) {
+                let returner = true;
+
+                if(item !== node[0]) {
+                    returner = false;
+                }
+
+                if(text2BinaryUtility(node[1].toString()) !== node[2].toString()) {
+                    returner = false;
+                }
+
+                if(node[1].toString() !== binary2TextUtility(node[2])) {
+                    returner = false;
+                }
+
+                console.log(returner === false ? '+++ ERROR +++ PANIC +++ UhhhhhOhhhhhh +++' : 'Result checkNodeIntegrity(): ' + returner);
+
+                return returner;
+            } else {
+                return false;
+            }
+        }
+
+    let checkBlockchainIntegrity = () => 
+        {
+            let allNodesEntry1 = '';
+            let allNodesEntry2 = '';
+    
+            blockchainEntries.forEach(node => {
+                allNodesEntry1 += node[1].toString();
+                allNodesEntry2 += binary2TextUtility(node[2].toString());
+            });
+            
+            if (allNodesEntry1 !== allNodesEntry2) {
+                return false;            
+            }
+
+            return true;
+        }
+
+    addBsNode('Entry No. 1 abc');
+    addBsNode('Entry No. 2 def');
+    addBsNode('Entry No. 3 ghi');
+    addBsNode('Entry No. 4 jkl');
+    addBsNode('Entry No. 5 mno');
+
+    console.log(checkBlockchainIntegrity() === false ? '+++ ERROR +++ PANIC +++ UhhhhhOhhhhhh +++' : 'Result checkBlockchainIntegrity(): true');
+
+</script>
+</body>
+</html>
