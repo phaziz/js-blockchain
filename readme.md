@@ -1,5 +1,5 @@
-Simple undistributet JS Blockchain
+#Simple undistributet JS Blockchain
 
-# Add Nodes to the Blockchain
-# Check Node integrity
-# Check Blockchain integrity
+### Add Nodes to the Blockchain
+### Check Node integrity
+### Check Blockchain integrity
